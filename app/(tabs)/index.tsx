@@ -1,75 +1,78 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, FlatList, Image, Pressable ,SafeAreaView} from 'react-native';
+import { useRouter } from 'expo-router';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const data = [
+  { id: '1', name: 'Jacket Jeans', price: 45.9, image: require('../assets/01.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/02.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/03.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/04.png') },
+  { id: '1', name: 'Jacket Jeans', price: 45.9, image: require('../assets/01.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/02.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/03.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/04.png') },
+  { id: '1', name: 'Jacket Jeans', price: 45.9, image: require('../assets/01.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/02.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/03.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/04.png') },
+  { id: '1', name: 'Jacket Jeans', price: 45.9, image: require('../assets/01.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/02.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/03.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/04.png') },
+  { id: '1', name: 'Jacket Jeans', price: 45.9, image: require('../assets/01.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/02.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/03.png') },
+  { id: '2', name: 'Acrylic Sweater', price: 37.9, image: require('../assets/04.png') },
 
-export default function HomeScreen() {
+  
+];
+
+
+
+export default function index() {
+  const router=useRouter();
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+    
+    <View style={styles.container}>
+      <Text style={styles.title}>Match Your Style</Text>
+      <TextInput style={styles.search} placeholder="Search" />
+      <View style={styles.tabButtons}>
+        <Text style={styles.activeTab}>Trending Now</Text>
+        <Text style={styles.inactiveTab}>All</Text>
+        <Text style={styles.inactiveTab}>New</Text>
+      </View>
+      <FlatList
+  data={data}
+  numColumns={2}
+  showsVerticalScrollIndicator={false}
+  keyExtractor={(item, index) => `${item.id}-${index}`} 
+  renderItem={({ item }) => (
+    <Pressable onPress={() => router.push(`/product/${item.id}`)} style={styles.card}>
+      <Image source={item.image} style={styles.image} />
+      <Text style={styles.productName}>{item.name}</Text>
+      <Text style={styles.price}>${item.price}</Text>
+    </Pressable>
+  )}
+/>
+
+    </View>
+    
+  )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: { flex: 1, padding: 16, backgroundColor: '#fff' ,margin:16},
+  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 10 },
+  search: { backgroundColor: '#f2f2f2', padding: 10, borderRadius: 10, marginBottom: 10 },
+  tabButtons: { flexDirection: 'row', marginBottom: 16 },
+  activeTab: { backgroundColor: '#f66', padding: 10, borderRadius: 20, marginRight: 9, color: 'white' ,width:140},
+  inactiveTab: { backgroundColor: '#ccc', padding: 9, borderRadius: 20, marginRight: 6 ,width:55},
+  card: { flex: 1, margin: 5, backgroundColor: '#f9f9f9', borderRadius: 10, padding: 10 ,width:10,},
+  image: { width: '100%',  borderRadius: 10 ,
+    height: 250
+
+    
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+  productName: { fontWeight: '600', marginTop: 8 },
+  price: { color: '#888' },
+})
